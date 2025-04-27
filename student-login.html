@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - Hostel Management System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background-color: #FAFAF5;
+            color: #212121;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #3F51B5;
+            color: white;
+            padding: 1rem 0;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 1rem;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        header nav a:hover {
+            color: #A5D6A7;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .login-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border: 1px solid #E0E0E0;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h1 {
+            font-size: 24px;
+            color: #212121;
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: #757575;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #212121;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #E0E0E0;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #212121;
+        }
+
+        .form-group input:focus {
+            border-color: #4FC3F7;
+            outline: none;
+        }
+        
+        .login-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .login-actions a {
+            color: #3F51B5;
+            text-decoration: none;
+        }
+        
+        .login-actions a:hover {
+            color: #4FC3F7;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #3F51B5;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: #4FC3F7;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register-link a {
+            color: #3F51B5;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            color: #4FC3F7;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Hostel Management System</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>Student Login</h1>
+                    <p>Welcome back! Please login to your account.</p>
+                </div>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="studentId">Student ID</label>
+                        <input type="text" id="studentId" required placeholder="Enter your student ID">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required placeholder="Enter your password">
+                    </div>
+                    
+                    <div class="login-actions">
+                        <a href="#" id="forgotPassword">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-login">Login</button>
+                </form>
+                
+                <div class="register-link">
+                    <p>Don't have an account? <a href="student-register.html">Register</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+        </div>
+    </footer>
+
+    <script>
+        // Initialize users array if it doesn't exist
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify([]));
+        }
+
+        // Debug: Show what's in local storage
+        console.log('Users in localStorage:', JSON.parse(localStorage.getItem('users')));
+
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser && currentUser.role === 'student') {
+                window.location.href = 'student-dashboard.html';
+            }
+        });
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const studentId = document.getElementById('studentId').value;
+            const password = document.getElementById('password').value;
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // Debug: Show what we're looking for
+            console.log('Looking for student with ID:', studentId);
+            console.log('All users:', users);
+            
+            // Find user with matching student ID
+            const user = users.find(u => u.studentId === studentId && u.role === 'student');
+            
+            // Debug: Show if we found the user
+            console.log('Found user:', user);
+            
+            if (user) {
+                // Check password
+                if (user.password === password) {
+                    // Store current user in localStorage
+                    localStorage.setItem('currentUser', JSON.stringify({
+                        id: user.id,
+                        studentId: user.studentId,
+                        fullName: user.fullName,
+                        role: user.role
+                    }));
+                    
+                    // Redirect to student dashboard
+                    window.location.href = 'student-dashboard.html';
+                } else {
+                    alert('Incorrect password. Please try again.');
+                }
+            } else {
+                alert('Student ID not found. Please register first.');
+            }
+        });
+        
+        // Handle forgot password
+        document.getElementById('forgotPassword').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Password reset functionality will be implemented in a future update.');
+        });
+    </script>
+</body>
+</html> 

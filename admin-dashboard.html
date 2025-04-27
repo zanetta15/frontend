@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Hostel Management System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            margin-bottom: -1px;
+        }
+        
+        .tab.active {
+            background-color: #fff;
+            border-color: #ddd;
+            border-radius: 4px 4px 0 0;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .summary-card h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+        
+        .summary-card p {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+            color: #2196F3;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .applications-grid, .hostels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .application-card, .hostel-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background-color: #ffeeba;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .btn-success {
+            background-color: #4caf50;
+            color: #fff;
+        }
+        
+        .btn-danger {
+            background-color: #f44336;
+            color: #fff;
+        }
+        
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .close {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .application-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .application-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .detail-group {
+            margin-bottom: 10px;
+        }
+        
+        .detail-group h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .detail-group p {
+            color: #666;
+            margin: 0;
+        }
+        
+        .application-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Hostel Management System</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#" id="logoutBtn" onclick="logout()">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <div class="dashboard-header">
+            <h2>Admin Dashboard</h2>
+            <p>Welcome, <span id="adminName">Admin</span>!</p>
+        </div>
+
+        <div class="summary-cards">
+            <div class="summary-card">
+                <h3>Total Applications</h3>
+                <p id="totalApplications">0</p>
+            </div>
+            <div class="summary-card">
+                <h3>Pending Applications</h3>
+                <p id="pendingApplications">0</p>
+            </div>
+            <div class="summary-card">
+                <h3>Approved Applications</h3>
+                <p id="approvedApplications">0</p>
+            </div>
+            <div class="summary-card">
+                <h3 id="totalHostels">0</h3>
+                <p>Total Hostels</p>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="applications">Applications</div>
+            <div class="tab" data-tab="hostels">Hostels</div>
+        </div>
+
+        <div class="tab-content active" id="applications-content">
+            <div class="action-buttons">
+                <button class="btn" onclick="filterApplications('all')">All</button>
+                <button class="btn" onclick="filterApplications('pending')">Pending</button>
+                <button class="btn" onclick="filterApplications('approved')">Approved</button>
+                <button class="btn" onclick="filterApplications('rejected')">Rejected</button>
+            </div>
+            <div id="applicationsGrid" class="applications-grid"></div>
+        </div>
+
+        <div class="tab-content" id="hostels-content">
+            <div class="action-buttons">
+                <button class="btn" onclick="showAddHostelModal()">Add New Hostel</button>
+            </div>
+            <div id="hostelsGrid" class="hostels-grid"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+        </div>
+    </footer>
+
+    <script src="js/admin-dashboard.js"></script>
+    <script>
+        // Load applications
+        function loadApplications() {
+            const applications = JSON.parse(localStorage.getItem('applications')) || [];
+            const applicationsGrid = document.getElementById('applicationsGrid');
+            applicationsGrid.innerHTML = '';
+            
+            if (applications.length === 0) {
+                applicationsGrid.innerHTML = '<p>No applications found.</p>';
+                return;
+            }
+            
+            applications.forEach(application => {
+                const card = document.createElement('div');
+                card.className = 'application-card';
+                
+                const statusClass = `status-${application.status}`;
+                
+                card.innerHTML = `
+                    <div class="application-header">
+                        <h3>Application #${application.id}</h3>
+                        <span class="${statusClass}">${application.status.toUpperCase()}</span>
+                    </div>
+                    <div class="application-details">
+                        <div class="detail-group">
+                            <h4>Student Information</h4>
+                            <p><strong>Name:</strong> ${application.studentName}</p>
+                            <p><strong>Student ID:</strong> ${application.studentId}</p>
+                            <p><strong>Phone:</strong> ${application.phone}</p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Room Details</h4>
+                            <p><strong>Room Number:</strong> ${application.roomNumber}</p>
+                            <p><strong>Room Type:</strong> ${application.roomType}</p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Booking Details</h4>
+                            <p><strong>Check-in:</strong> ${application.checkInDate}</p>
+                            <p><strong>Check-out:</strong> ${application.checkOutDate}</p>
+                            <p><strong>Special Requests:</strong> ${application.specialRequests || 'None'}</p>
+                            <p><strong>Date Applied:</strong> ${new Date(application.date).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    <div class="application-actions">
+                        ${application.status === 'pending' ? `
+                            <button class="btn btn-success" onclick="updateApplicationStatus(${application.id}, 'approved')">Approve</button>
+                            <button class="btn btn-danger" onclick="updateApplicationStatus(${application.id}, 'rejected')">Reject</button>
+                        ` : ''}
+                    </div>
+                `;
+                
+                applicationsGrid.appendChild(card);
+            });
+        }
+        
+        // Update application status
+        function updateApplicationStatus(applicationId, newStatus) {
+            const applications = JSON.parse(localStorage.getItem('applications')) || [];
+            const applicationIndex = applications.findIndex(app => app.id === applicationId);
+            
+            if (applicationIndex !== -1) {
+                applications[applicationIndex].status = newStatus;
+                localStorage.setItem('applications', JSON.stringify(applications));
+                
+                // If approved, mark the room as booked
+                if (newStatus === 'approved') {
+                    const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
+                    const roomIndex = rooms.findIndex(room => room.id === applications[applicationIndex].roomId);
+                    if (roomIndex !== -1) {
+                        rooms[roomIndex].isBooked = true;
+                        localStorage.setItem('rooms', JSON.stringify(rooms));
+                    }
+                }
+                
+                loadApplications();
+                updateApplicationCounts();
+            }
+        }
+        
+        // Update application counts
+        function updateApplicationCounts() {
+            const applications = JSON.parse(localStorage.getItem('applications')) || [];
+            
+            document.getElementById('totalApplications').textContent = applications.length;
+            document.getElementById('pendingApplications').textContent = 
+                applications.filter(app => app.status === 'pending').length;
+            document.getElementById('approvedApplications').textContent = 
+                applications.filter(app => app.status === 'approved').length;
+        }
+        
+        // Filter applications
+        function filterApplications(status) {
+            const applications = JSON.parse(localStorage.getItem('applications')) || [];
+            const applicationsGrid = document.getElementById('applicationsGrid');
+            applicationsGrid.innerHTML = '';
+            
+            const filteredApplications = status === 'all' 
+                ? applications 
+                : applications.filter(app => app.status === status);
+            
+            if (filteredApplications.length === 0) {
+                applicationsGrid.innerHTML = '<p>No applications found.</p>';
+                return;
+            }
+            
+            filteredApplications.forEach(application => {
+                const card = document.createElement('div');
+                card.className = 'application-card';
+                
+                const statusClass = `status-${application.status}`;
+                
+                card.innerHTML = `
+                    <div class="application-header">
+                        <h3>Application #${application.id}</h3>
+                        <span class="${statusClass}">${application.status.toUpperCase()}</span>
+                    </div>
+                    <div class="application-details">
+                        <div class="detail-group">
+                            <h4>Student Information</h4>
+                            <p><strong>Name:</strong> ${application.studentName}</p>
+                            <p><strong>Student ID:</strong> ${application.studentId}</p>
+                            <p><strong>Phone:</strong> ${application.phone}</p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Room Details</h4>
+                            <p><strong>Room Number:</strong> ${application.roomNumber}</p>
+                            <p><strong>Room Type:</strong> ${application.roomType}</p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Booking Details</h4>
+                            <p><strong>Check-in:</strong> ${application.checkInDate}</p>
+                            <p><strong>Check-out:</strong> ${application.checkOutDate}</p>
+                            <p><strong>Special Requests:</strong> ${application.specialRequests || 'None'}</p>
+                            <p><strong>Date Applied:</strong> ${new Date(application.date).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    <div class="application-actions">
+                        ${application.status === 'pending' ? `
+                            <button class="btn btn-success" onclick="updateApplicationStatus(${application.id}, 'approved')">Approve</button>
+                            <button class="btn btn-danger" onclick="updateApplicationStatus(${application.id}, 'rejected')">Reject</button>
+                        ` : ''}
+                    </div>
+                `;
+                
+                applicationsGrid.appendChild(card);
+            });
+        }
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            loadApplications();
+            updateApplicationCounts();
+        });
+    </script>
+</body>
+</html> 

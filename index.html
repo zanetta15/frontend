@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Hostel Management System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background-color: #FAFAF5;
+            color: #212121;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #3F51B5;
+            color: white;
+            padding: 1rem 0;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 1rem;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        header nav a:hover {
+            color: #A5D6A7;
+        }
+
+        .welcome-container {
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            padding: 0 20px;
+        }
+
+        .welcome-header {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-header h1 {
+            font-size: 2rem;
+            color: #212121;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-header p {
+            color: #757575;
+            margin-bottom: 0;
+        }
+
+        .role-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        @media (min-width: 700px) {
+            .role-selection {
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+        }
+
+        .role-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 2rem 2.5rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #E0E0E0;
+            transition: all 0.3s;
+            cursor: pointer;
+            min-width: 250px;
+            max-width: 300px;
+        }
+
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-color: #4FC3F7;
+        }
+
+        .role-card img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .role-card h2 {
+            color: #212121;
+            margin-bottom: 0.5rem;
+        }
+
+        .role-card p {
+            color: #757575;
+            margin-bottom: 1.5rem;
+            font-size: 0.98rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #3F51B5;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #4FC3F7;
+        }
+
+        footer {
+            background-color: #3F51B5;
+            color: white;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+
+        footer .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Hostel Management System</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="welcome-container">
+            <div class="welcome-header">
+                <h1>Welcome to Hostel Management System</h1>
+                <p>Please select your role to continue</p>
+            </div>
+            
+            <div class="role-selection">
+                <div class="role-card" onclick="window.location.href='admin-login.html'">
+                    <img src="images/admin-icon.png" alt="Admin">
+                    <h2>Admin</h2>
+                    <p>Manage hostels, applications, and student records</p>
+                    <button class="btn">Login as Admin</button>
+                </div>
+                
+                <div class="role-card" onclick="window.location.href='student-login.html'">
+                    <img src="images/student-icon.png" alt="Student">
+                    <h2>Student</h2>
+                    <p>Browse hostels, apply for rooms, and track applications</p>
+                    <button class="btn">Login as Student</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+        </div>
+    </footer>
+</body>
+</html> 
+</html> 

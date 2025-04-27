@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration - Hostel Management System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background-color: #FAFAF5;
+            color: #212121;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #3F51B5;
+            color: white;
+            padding: 1rem 0;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 1rem;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        header nav a:hover {
+            color: #A5D6A7;
+        }
+
+        .register-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .register-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border: 1px solid #E0E0E0;
+        }
+        
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .register-header h1 {
+            font-size: 24px;
+            color: #212121;
+            margin-bottom: 10px;
+        }
+        
+        .register-header p {
+            color: #757575;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #212121;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #E0E0E0;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #212121;
+        }
+
+        .form-group input:focus {
+            border-color: #4FC3F7;
+            outline: none;
+        }
+        
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #3F51B5;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-register:hover {
+            background-color: #4FC3F7;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-link a {
+            color: #3F51B5;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            color: #4FC3F7;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Hostel Management System</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="register-container">
+            <div class="register-card">
+                <div class="register-header">
+                    <h1>Student Registration</h1>
+                    <p>Create your student account</p>
+                </div>
+                
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" required placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="studentId">Student ID</label>
+                        <input type="text" id="studentId" required placeholder="Enter your student ID">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" required placeholder="Enter your phone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required placeholder="Create a password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" required placeholder="Confirm your password">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-register">Register</button>
+                </form>
+                
+                <div class="login-link">
+                    <p>Already have an account? <a href="student-login.html">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+        </div>
+    </footer>
+
+    <script>
+        // Initialize users array if it doesn't exist
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify([]));
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value;
+            const studentId = document.getElementById('studentId').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            // Get existing users
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // Check if student ID already exists
+            if (users.some(user => user.studentId === studentId)) {
+                alert('Student ID already registered');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                fullName: fullName,
+                studentId: studentId,
+                phone: phone,
+                password: password,
+                role: 'student',
+                dateCreated: new Date().toISOString()
+            };
+            
+            // Add user to users array
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            alert('Registration successful! Please login with your student ID and password.');
+            window.location.href = 'student-login.html';
+        });
+    </script>
+</body>
+</html> 
