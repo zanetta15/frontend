@@ -58,11 +58,6 @@ cd your-repo/frontend
 ### 2. Run the Frontend Locally
 Simply open `index.html` in your browser, or use a simple server:
 
-```bash
-# With Python 3
-python -m http.server 5000
-# Then visit http://localhost:5000
-```
 
 ### 3. Run the Backend Locally
 If you have a Node.js/Express backend:
